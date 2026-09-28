@@ -226,7 +226,15 @@ const palette = [
 ];
 
 const $ = id => document.getElementById(id);
-const iso = d => d.toISOString().slice(0,10);
+
+// 날짜를 UTC가 아닌 "사용자 기기 현지시간" 기준 YYYY-MM-DD로 변환합니다.
+// 한국(KST)에서는 toISOString()을 그대로 사용하면 자정 무렵 날짜가 하루 전으로 밀릴 수 있습니다.
+function iso(d){
+  const y = d.getFullYear();
+  const m = String(d.getMonth()+1).padStart(2,"0");
+  const day = String(d.getDate()).padStart(2,"0");
+  return `${y}-${m}-${day}`;
+}
 
 function setSync(text, cls=""){
   $("syncStatus").textContent=text;
